@@ -26,7 +26,7 @@ end
 
 def assignment_average_score(grade_hash, assignment_num)
   # grade_hash.map {|key, value| grade_hash[key] [assignment_num - 1]}.transform_values {|nums| nums.reduce(:+)/nums.size}
-  grade_hash.map{|key,value| grade_hash[key] [assignment_num -1]}.reduce(0) {|accumulator,x| accumulator += x * x/}
+  # grade_hash.map{|key,value| grade_hash[key] [assignment_num -1]}.reduce(0) {|accumulator,x| accumulator += x * x/}
 end
 
 # Return a hash of students and their average score.
@@ -73,7 +73,7 @@ end
 
 # Return the average for the entire class.
 
-# NOTE: works
+# NOTE: works. fails if doing grades.sum / grades.size.to_f. It's "too exact"
 
 def class_average(grade_hash)
   grades = grade_hash.values.flatten
@@ -82,4 +82,5 @@ end
 
 # Return an array of the top `number_of_students` students.
 def top_students(grade_hash, number_of_students)
+  grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}.sort_by{|num| num.size}
 end
