@@ -22,12 +22,11 @@ end
 # assignment. Note that Ruby counts arrays from 0, but we are referring to
 # them as 1-10.
 
-# NOTE: doesn't work. So I can get the values to be separated for each but need to do an average based on that individual. 
+# NOTE: doesn't work. So I can get the values to be separated for each but need to do an average based on that individual.
 
 def assignment_average_score(grade_hash, assignment_num)
   # grade_hash.map {|key, value| grade_hash[key] [assignment_num - 1]}.transform_values {|nums| nums.reduce(:+)/nums.size}
-  grade_hash.map{|key,value| grade_hash[key] [assignment_num -1]}
-
+  grade_hash.map{|key,value| grade_hash[key] [assignment_num -1]}.reduce(0) {|accumulator,x| accumulator += x * x/}
 end
 
 # Return a hash of students and their average score.
@@ -74,10 +73,11 @@ end
 
 # Return the average for the entire class.
 
-# NOTE: doesn't work
+# NOTE: works
 
 def class_average(grade_hash)
-  grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}
+  grades = grade_hash.values.flatten
+  grades.sum / grades.size
 end
 
 # Return an array of the top `number_of_students` students.
