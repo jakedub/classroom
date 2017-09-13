@@ -25,8 +25,8 @@ end
 # NOTE: doesn't work. So I can get the values to be separated for each but need to do an average based on that individual.
 
 def assignment_average_score(grade_hash, assignment_num)
-  # grade_hash.map {|key, value| grade_hash[key] [assignment_num - 1]}.transform_values {|nums| nums.reduce(:+)/nums.size}
-  # grade_hash.map{|key,value| grade_hash[key] [assignment_num -1]}.reduce(0) {|accumulator,x| accumulator += x * x/}
+  all_average = grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}
+  assign_average = all_average.map{|key, value| grade_hash[key] [assignment_num-1]}
 end
 
 # Return a hash of students and their average score.
