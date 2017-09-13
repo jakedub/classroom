@@ -25,8 +25,7 @@ end
 # NOTE: doesn't work. So I can get the values to be separated for each but need to do an average based on that individual.
 
 def assignment_average_score(grade_hash, assignment_num)
-  all_average = grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}
-  assign_average = all_average.map{|key, value| grade_hash[key] [assignment_num-1]}
+  (assignment_scores(grade_hash, assignment_num).reduce(:+))/ grade_arr.length
 end
 
 # Return a hash of students and their average score.
@@ -36,7 +35,13 @@ end
 # NOTE: works. :+ would be reduce(0) { |sum,x| sum + x }
 
 def averages(grade_hash)
-  grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}
+  new_hash = {}
+  grade_hash.each do |key,value|
+    new_hash[key] = (value.reduce{|sum, num|} sum + num}/ value.length)
+  end
+  new_hash
+
+  # grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}
 end
 
 # Return a letter grade for a numerical score.
@@ -68,7 +73,13 @@ end
 # NOTE: works
 
 def final_letter_grades(grade_hash)
-  grade_hash.transform_values {|nums| letter_grade(nums.reduce(:+)/nums.size)}
+  new_hash = {}
+  grade_hash.each do |key,value|
+    new_hash[key] = letter_grade((value.reduce{|sum, num|} sum + num}/ value.length))
+  end
+  new_hash
+  #
+  # grade_hash.transform_values {|nums| letter_grade(nums.reduce(:+)/nums.size)}
 end
 
 # Return the average for the entire class.
@@ -76,17 +87,30 @@ end
 # NOTE: works. fails if doing grades.sum / grades.size.to_f. It's "too exact"
 
 def class_average(grade_hash)
-  grades = grade_hash.values.flatten
-  grades.sum / grades.size
+  # grades = grade_hash.values.flatten
+  # grades.sum / grades.size
+
+average_arr = []
+averages(grade_hash).each do |key, value|
+  average_arr << value
+end
+(average_arr.reduce {|num, sum| num + sum}/
+average_arr.length
+
 end
 
 # Return an array of the top `number_of_students` students.
 def top_students(grade_hash, number_of_students)
     grades = grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}
-    rank = grades.sort_by { |key, value| value  }.reverse[0,3]
-    rank.map {|key, value| key}
-
-    grades = grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}
     rank = grades.sort_by { |key, value| value  }.reverse
-    rank.map {|key, value| key}
-end
+    rank.map {|key, value| key}.take(number_of_students)
+
+    # sorted_hash = averages(grade_hash).sort_by {|name, grade| grade}
+    # sorted_hash.reverse!
+    # top_array = []
+    # sorted_hash.each do |key, value|
+    #   top_array << key
+    # end
+    # top_array.take(number_of_students)
+
+  end
