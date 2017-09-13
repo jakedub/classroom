@@ -33,7 +33,7 @@ end
 # TIP: To convert an array like [[:indiana, 90], [:nevada, 80]] to a hash,
 # use .to_h. Also look at Hash#transform_values.
 
-# NOTE: works. :+ would be |accumulator,x| accumulator + x
+# NOTE: works. :+ would be reduce(0) { |sum,x| sum + x }
 
 def averages(grade_hash)
   grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}
@@ -68,7 +68,7 @@ end
 # NOTE: works
 
 def final_letter_grades(grade_hash)
-  grade_hash.map.transform_values{|nums| letter_grade(nums.reduce(:+)/nums.size)}
+  grade_hash.transform_values {|nums| letter_grade(nums.reduce(:+)/nums.size)}
 end
 
 # Return the average for the entire class.
@@ -82,5 +82,11 @@ end
 
 # Return an array of the top `number_of_students` students.
 def top_students(grade_hash, number_of_students)
-  grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}.sort_by{|num| num.size}
+    grades = grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}
+    rank = grades.sort_by { |key, value| value  }.reverse[0,3]
+    rank.map {|key, value| key}
+
+    grades = grade_hash.transform_values {|nums| nums.reduce(:+)/nums.size}
+    rank = grades.sort_by { |key, value| value  }.reverse
+    rank.map {|key, value| key}
 end
